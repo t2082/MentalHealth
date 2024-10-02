@@ -3,15 +3,11 @@ import 'package:mental_health/features/meditation/domain/entities/mood_message.d
 import 'package:mental_health/features/meditation/domain/repository/meditation_repository.dart';
 
 class GetMoodMessage {
-  final String mood;
   final MeditationRepository repository;
 
-  GetMoodMessage({
-    required this.mood,
-    required this.repository,
-  });
+  GetMoodMessage({required this.repository});
 
   Future<MoodMessage> call(String mood) async {
-    return await repository.getMoodMessenge(mood: mood);
+    return await repository.getMoodMessage(mood);
   }
 }

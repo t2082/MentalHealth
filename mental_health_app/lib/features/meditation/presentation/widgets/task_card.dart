@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
 class TaskCard extends StatelessWidget {
@@ -6,12 +5,11 @@ class TaskCard extends StatelessWidget {
   final String description;
   final Color color;
 
-  const TaskCard({
-    super.key,
-    required this.title,
-    required this.description,
-    required this.color,
-  });
+  const TaskCard(
+      {super.key,
+      required this.title,
+      required this.description,
+      required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +19,8 @@ class TaskCard extends StatelessWidget {
           BoxDecoration(color: color, borderRadius: BorderRadius.circular(12)),
       child: Row(
         children: [
-          const SizedBox(
-            width: 9,
+          SizedBox(
+            width: 5,
           ),
           Expanded(
             child: Column(
@@ -30,35 +28,35 @@ class TaskCard extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: Theme.of(context)
-                      .textTheme
-                      .labelMedium!
-                      .copyWith(fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 8,
                 ),
                 Row(
                   children: [
                     Flexible(
-                      child: Text(description,
-                          style: Theme.of(context).textTheme.labelSmall),
+                      child: Text(
+                        description,
+                        style: Theme.of(context).textTheme.labelSmall,
+                      ),
                     ),
-                    const SizedBox(
-                      height: 3,
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(3),
-                      decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          borderRadius: BorderRadius.circular(50)),
-                      child: const Icon(Icons.arrow_forward_ios),
-                    )
+                    SizedBox(height: 3),
+                    // Container(
+                    //   padding: EdgeInsets.all(3),
+                    //   decoration: BoxDecoration(
+                    //     color: Colors.grey[200],
+                    //     borderRadius: BorderRadius.circular(50)
+                    //   ),
+                    //   child: Icon(Icons.arrow_forward_ios),
+                    // )
                   ],
                 )
               ],
             ),
-          ),
+          )
         ],
       ),
     );

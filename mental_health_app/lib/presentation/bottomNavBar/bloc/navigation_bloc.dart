@@ -4,7 +4,8 @@ import 'package:mental_health/presentation/bottomNavBar/bloc/navigation_state.da
 
 class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
   NavigationBloc() : super(NavigationChange(index: 0)) {
-    on<NavigationTo>((event, emit) { // Nhận Event từ người dùng (event) emit để xử lý trạng thái mới
+    on<NavigationTo>((event, emit) {
+      // Nhận Event từ người dùng (event) emit để xử lý trạng thái mới
       emit(NavigationChange(index: event.index));
     });
   }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:mental_health/features/meditation/domain/entities/daily_quote.dart';
 
 class DailyQuoteModel extends DailyQuote {
@@ -7,10 +9,20 @@ class DailyQuoteModel extends DailyQuote {
       required super.everningQuote});
 
   factory DailyQuoteModel.fromJson(Map<String, dynamic> json) {
-    final quotes = json['text'];
+    final quotes = jsonDecode(json['text']);
     return DailyQuoteModel(
         morningQuote: quotes['morningQuote'],
         noonQuote: quotes['noonQuote'],
-        everningQuote: quotes['everningQuote']);
+        everningQuote: quotes['eveningQuote']);
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'text': {
+        'morningQuote': morningQuote,
+        'noonQuote': noonQuote,
+        'eveningQuote': everningQuote,
+      },
+    };
   }
 }
