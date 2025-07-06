@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "883681915335",
+    "project_id": "mental-health-b7123",
+    "storage_bucket": "mental-health-b7123.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:883681915335:android:ea5ffc3205a408fb22a9e2",
+        "android_client_info": {
+          "package_name": "com.akuro.mint"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfFeoNa070ZOHmXhVASly4lEMxmAzzIec"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
