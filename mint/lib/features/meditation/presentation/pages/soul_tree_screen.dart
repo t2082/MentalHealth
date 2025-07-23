@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mental_health/core/theme.dart';
 import 'package:mental_health/features/meditation/presentation/widgets/soul_garden/river.dart';
+import 'package:mental_health/features/meditation/presentation/widgets/soul_garden/tree.dart';
 
 class SoulTreeScreen extends StatefulWidget {
   const SoulTreeScreen({Key? key}) : super(key: key);
@@ -19,7 +20,6 @@ class _SoulTreeScreenState extends State<SoulTreeScreen>
   @override
   void initState() {
     super.initState();
-
     // Animation cho cây phát triển
     _treeAnimationController = AnimationController(
       duration: const Duration(seconds: 3),
@@ -45,7 +45,6 @@ class _SoulTreeScreenState extends State<SoulTreeScreen>
       parent: _leafAnimationController,
       curve: Curves.easeInOut,
     ));
-
     // Bắt đầu animations
     _treeAnimationController.forward();
     _leafAnimationController.repeat(reverse: true);
@@ -67,11 +66,7 @@ class _SoulTreeScreenState extends State<SoulTreeScreen>
         backgroundColor: Colors.transparent,
         title: Text(
           'Vườn Tâm Hồn',
-          style: TextStyle(
-            color: DefaultColors.reverseTextPrimary,
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextPresets.titleLarge,
         ),
         centerTitle: true,
         automaticallyImplyLeading: false,
@@ -79,7 +74,23 @@ class _SoulTreeScreenState extends State<SoulTreeScreen>
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
-          children: [],
+          children: [
+            Container(
+              width: double.infinity,
+              height: 350,
+              child: const TreeWidget(
+                growth: 1, // Cây đã phát triển 80%
+                root: 0.5,
+                body: 0.6,
+                branch: 0.7,
+                leaf: 0.7,
+                flower: 0.8,
+                fruit: 0.9,
+                size: 1,
+                seed: 1, // Seed để tạo hình dạng cây nhất quán
+              ),
+            )
+          ],
         ),
       ),
     );

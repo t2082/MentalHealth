@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:mental_health/core/services/firebase_service.dart';
 import 'package:mental_health/core/services/shared_preferences_service.dart';
 import 'package:mental_health/core/services/quote_service.dart';
+import 'package:mental_health/core/services/sqlite_helper.dart';
 import 'package:mental_health/features/meditation/data/datasources/meditation_remote_data_source.dart';
 import 'package:mental_health/features/meditation/data/repository/meditation_repository_impl.dart';
 import 'package:mental_health/features/meditation/domain/repository/meditation_repository.dart';
@@ -47,6 +48,9 @@ Future<void> init() async {
 
   // Core Services
   sl.registerLazySingleton(() => FirebaseService());
+
+  // Register SqliteHelper as singleton
+  sl.registerLazySingleton(() => SqliteHelper.instance);
 
   // Register SharedPreferencesService as singleton
   sl.registerLazySingletonAsync<SharedPreferencesService>(

@@ -208,7 +208,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
               if (composition == null) {
                 return Container(
                   height: MediaQuery.of(context).size.height * 0.4,
-                  color: DefaultColors.primary,
+                  color: DefaultColors.tea,
                 );
               }
               return child;
@@ -231,7 +231,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
         Expanded(
           child: Container(
             width: double.infinity,
-            color: DefaultColors.primary,
+            color: DefaultColors.tea,
             child: Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 32,
@@ -306,7 +306,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
         Expanded(
           child: Container(
             width: double.infinity,
-            color: DefaultColors.primary,
+            color: DefaultColors.tea,
             child: Stack(
               children: [
                 // Background music animation

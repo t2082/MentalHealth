@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mental_health/core/theme.dart';
 import 'package:mental_health/features/meditation/presentation/widgets/meditation/emotion_core.dart';
 import 'package:mental_health/features/meditation/presentation/widgets/meditation/frame.dart';
+import 'package:mental_health/features/quotes/presentation/pages/quote_histories_screen.dart';
 
 class MeditationScreen extends StatefulWidget {
   const MeditationScreen({super.key});
@@ -21,107 +22,92 @@ class _MeditationScreenState extends State<MeditationScreen> {
     bool isCompleted,
   ) {
     return Container(
-      padding: EdgeInsets.all(16.w),
+      // padding: EdgeInsets.all(16.w),
+      padding: EdgeInsets.symmetric(horizontal: 18.w),
+      height: 80.h,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16.r),
+        borderRadius: DfBRadius.defaultRadius,
         gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
           colors: [
+            accentColor.withValues(alpha: 0.1),
             Colors.white.withValues(alpha: 0.1),
-            Colors.white.withValues(alpha: 0.02),
           ],
         ),
         border: Border.all(
-          color: isCompleted
-              ? accentColor.withValues(alpha: 0.3)
-              : Colors.white.withValues(alpha: 0.15),
+          color: DefaultColors.serotonin.withValues(alpha: 0.3),
           width: 1.w,
         ),
-        boxShadow: [
-          BoxShadow(
-            color: isCompleted
-                ? accentColor.withValues(alpha: 0.2)
-                : Colors.black.withValues(alpha: 0.08),
-            blurRadius: 12.r,
-            spreadRadius: 0,
-            offset: Offset(0, 4.h),
-          ),
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
-            blurRadius: 6.r,
-            spreadRadius: 0,
-            offset: Offset(0, 2.h),
-          ),
-        ],
       ),
       child: Row(
+        spacing: 12.w,
         children: [
-          Container(
-            width: 48.w,
-            height: 48.h,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12.r),
-              gradient: LinearGradient(
-                colors: [
-                  primaryColor.withValues(alpha: isCompleted ? 0.8 : 0.2),
-                  accentColor.withValues(alpha: isCompleted ? 0.6 : 0.1),
-                ],
-              ),
-            ),
-            child: Icon(
-              isCompleted ? Icons.check_rounded : icon,
-              color: isCompleted ? Colors.white : accentColor,
-              size: 24.sp,
-            ),
-          ),
-          SizedBox(width: 16.w),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   title,
-                  style: TextPresets.bodyLarge.copyWith(
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black,
+                  style: TextPresets.bodyMedium.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black87,
                     decoration: isCompleted ? TextDecoration.lineThrough : null,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-                SizedBox(height: 4.h),
                 Text(
                   description,
                   style: TextPresets.bodySmall.copyWith(
                     color: Colors.black.withValues(alpha: 0.7),
                     decoration: isCompleted ? TextDecoration.lineThrough : null,
                   ),
+                  maxLines: 2,
                 ),
               ],
             ),
           ),
-          SizedBox(width: 12.w),
           Container(
-            width: 32.w,
-            height: 32.h,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: isCompleted
-                    ? accentColor
-                    : Colors.black.withValues(alpha: 0.3),
-                width: 2.w,
+            width: 30.w,
+            height: 30.h,
+            // decoration: BoxDecoration(
+            //   // shape: BoxShape.circle,
+            //   border: Border.all(
+            //     color: isCompleted
+            //         ? accentColor
+            //         : Colors.black.withValues(alpha: 0.3),
+            //     width: 2.w,
+            //   ),
+            // ),
+            child: Stack(children: [
+              Center(
+                child: Container(
+                  width: 20.w,
+                  height: 20.h,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.black.withValues(alpha: 0.4),
+                      width: 2.w,
+                    ),
+                    color: Colors.transparent,
+                  ),
+                ),
               ),
-              color: isCompleted ? accentColor : Colors.transparent,
-            ),
-            child: isCompleted
-                ? Icon(
-                    Icons.check,
-                    color: Colors.white,
-                    size: 18.sp,
-                  )
-                : null,
+              Positioned(
+                bottom: 6.w,
+                left: 6.w,
+                child: isCompleted
+                    ? Icon(
+                        Icons.check,
+                        color: accentColor,
+                        size: 25.sp,
+                      )
+                    : const SizedBox.shrink(),
+              ),
+            ]),
           ),
         ],
       ),
@@ -130,7 +116,7 @@ class _MeditationScreenState extends State<MeditationScreen> {
 
   Widget _buildModernFeatureCard(
     String title,
-    IconData icon,
+    String icon,
     Color primaryColor,
     Color accentColor,
   ) {
@@ -139,42 +125,14 @@ class _MeditationScreenState extends State<MeditationScreen> {
         Container(
           width: 64.w,
           height: 64.h,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20.r),
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                primaryColor.withValues(alpha: 0.2),
-                accentColor.withValues(alpha: 0.1),
-              ],
+          child: Center(
+            child: Image.asset(
+              icon,
+              width: 38.w,
+              height: 38.h,
             ),
-            border: Border.all(
-              color: accentColor.withValues(alpha: 0.3),
-              width: 1.w,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: accentColor.withValues(alpha: 0.2),
-                blurRadius: 12.r,
-                spreadRadius: 0,
-                offset: Offset(0, 4.h),
-              ),
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.05),
-                blurRadius: 6.r,
-                spreadRadius: 0,
-                offset: Offset(0, 2.h),
-              ),
-            ],
-          ),
-          child: Icon(
-            icon,
-            color: accentColor,
-            size: 28.sp,
           ),
         ),
-        SizedBox(height: 8.h),
         Text(
           title,
           style: TextPresets.labelSmall.copyWith(
@@ -328,7 +286,6 @@ class _MeditationScreenState extends State<MeditationScreen> {
                     ],
                   ),
                 ),
-                // Modern Profile Avatar
                 Container(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
@@ -459,10 +416,18 @@ class _MeditationScreenState extends State<MeditationScreen> {
                   ),
                 ],
               ),
-              const Frame(
+              Frame(
                 title: 'Lõi cảm xúc',
                 subTitle: 'Xem lịch sử...',
-                child: EmotionCore(),
+                onSubTitleTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const QuoteHistoriesScreen(),
+                    ),
+                  );
+                },
+                child: const EmotionCore(),
               ),
               Frame(
                 title: 'Nhiệm vụ hôm nay (8/16)',
@@ -495,7 +460,7 @@ class _MeditationScreenState extends State<MeditationScreen> {
                         Icons.directions_walk_rounded,
                         DefaultColors.endorphin,
                         DefaultColors.endorphinNeon,
-                        false,
+                        true,
                       ),
                     ],
                   ),
@@ -504,34 +469,37 @@ class _MeditationScreenState extends State<MeditationScreen> {
               Frame(
                 title: 'Tiện ích khác',
                 subTitle: '',
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    _buildModernFeatureCard(
-                      'Nhật ký',
-                      Icons.book_rounded,
-                      DefaultColors.dopamine,
-                      DefaultColors.dopamineNeon,
-                    ),
-                    _buildModernFeatureCard(
-                      'Uống nước',
-                      Icons.analytics_rounded,
-                      DefaultColors.endorphin,
-                      DefaultColors.endorphinNeon,
-                    ),
-                    _buildModernFeatureCard(
-                      'Nhắc nhở',
-                      Icons.people_rounded,
-                      DefaultColors.oxytocin,
-                      DefaultColors.oxytocinNeon,
-                    ),
-                    _buildModernFeatureCard(
-                      'Cài đặt',
-                      Icons.settings_rounded,
-                      DefaultColors.serotonin,
-                      DefaultColors.serotoninNeon,
-                    ),
-                  ],
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 6.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _buildModernFeatureCard(
+                        'Nhật ký',
+                        'assets/icons/notebook.png',
+                        DefaultColors.dopamine,
+                        DefaultColors.dopamineNeon,
+                      ),
+                      _buildModernFeatureCard(
+                        'Uống nước',
+                        'assets/icons/water.png',
+                        DefaultColors.endorphin,
+                        DefaultColors.endorphinNeon,
+                      ),
+                      _buildModernFeatureCard(
+                        'Nhắc nhở',
+                        'assets/icons/alert.png',
+                        DefaultColors.oxytocin,
+                        DefaultColors.oxytocinNeon,
+                      ),
+                      _buildModernFeatureCard(
+                        'Báo thức',
+                        'assets/icons/clock.png',
+                        DefaultColors.serotonin,
+                        DefaultColors.serotoninNeon,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

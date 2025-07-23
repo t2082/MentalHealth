@@ -8,6 +8,8 @@ import 'package:mental_health/features/quotes/domain/entities/quote.dart';
 import 'package:mental_health/features/quotes/presentation/bloc/quote_bloc.dart';
 import 'package:mental_health/features/quotes/presentation/bloc/quote_event.dart';
 import 'package:mental_health/features/quotes/presentation/bloc/quote_state.dart';
+import 'package:mental_health/features/quotes/data/services/quote_history_service.dart';
+import 'package:mental_health/injection_container.dart' as di;
 
 class QuoteDialog extends StatefulWidget {
   final String feeling;
@@ -27,6 +29,22 @@ class QuoteDialog extends StatefulWidget {
 
 class _QuoteDialogState extends State<QuoteDialog> {
   bool _showTranslation = false;
+  late QuoteHistoryService _quoteHistoryService;
+
+  @override
+  void initState() {
+    super.initState();
+    _quoteHistoryService = di.sl<QuoteHistoryService>();
+  }
+
+  Future<void> _saveQuoteToHistory(Quote quote) async {
+    try {
+      await _quoteHistoryService.saveQuoteIfNotExists(quote);
+    } catch (e) {
+      // Silently handle error - không cần hiển thị lỗi cho user
+      debugPrint('Error saving quote to history: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +54,7 @@ class _QuoteDialogState extends State<QuoteDialog> {
         child: Stack(
           children: [
             Container(
+              width: double.infinity,
               constraints: BoxConstraints(
                 maxHeight: 400.h, // Tối đa 500.h
                 minHeight: 150.h, // Tối thiểu 150.h
@@ -64,6 +83,8 @@ class _QuoteDialogState extends State<QuoteDialog> {
                     } else if (state is QuoteLoading) {
                       return _buildLoading();
                     } else if (state is QuoteLoaded) {
+                      // Lưu quote vào lịch sử
+                      _saveQuoteToHistory(state.quote);
                       return _buildQuoteContent(context, state.quote);
                     } else if (state is QuoteError) {
                       isErr = true;

@@ -6,11 +6,15 @@ class Frame extends StatelessWidget {
   final Widget child;
   final String title;
   final String subTitle;
-  const Frame(
-      {super.key,
-      required this.child,
-      required this.title,
-      required this.subTitle});
+  final VoidCallback? onSubTitleTap;
+
+  const Frame({
+    super.key,
+    required this.child,
+    required this.title,
+    required this.subTitle,
+    this.onSubTitleTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +24,10 @@ class Frame extends StatelessWidget {
         child: Container(
           width: double.infinity,
           margin: EdgeInsets.only(top: 20.h),
-          padding: EdgeInsets.only(top: 40.h, bottom: 20.h),
+          padding: EdgeInsets.only(top: 18.h, bottom: 2.h),
           decoration: BoxDecoration(
-            color: DefaultColors.white,
+            color: Colors.white,
             borderRadius: BorderRadius.only(
-              // topRight: Radius.circular(8),
               bottomLeft: Radius.circular(8.r),
               bottomRight: Radius.circular(8.r),
             ),
@@ -81,10 +84,15 @@ class Frame extends StatelessWidget {
       Positioned(
         top: 0,
         right: 10.w,
-        child: Text(subTitle,
+        child: GestureDetector(
+          onTap: onSubTitleTap,
+          child: Text(
+            subTitle,
             style: TextPresets.body.copyWith(
               color: DefaultColors.serotonin,
-            )),
+            ),
+          ),
+        ),
       )
     ]);
   }
