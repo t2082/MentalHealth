@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 import 'package:mental_health/core/theme.dart';
 // import 'package:http/http.dart' as http;
 import 'package:mental_health/features/music/presentation/bloc/song_bloc.dart';
@@ -9,90 +11,120 @@ import 'package:mental_health/features/music/presentation/pages/music_player_scr
 class PlaylistScreen extends StatelessWidget {
   PlaylistScreen({super.key});
 
+  Widget _buildAppbar() {
+    return Column(
+      children: [
+        Text('Thể loại nhạc'),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            _buildIcon('assets/lotties/wave.json', 'Tự động', true),
+            _buildIcon('assets/lotties/wave.json', 'Tập trung', true),
+            _buildIcon('assets/lotties/wave.json', 'Thư giản', true),
+            _buildIcon('assets/lotties/wave.json', 'Hoạt động', true),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildIcon(String icon, String label, bool play) {
+    return Column(children: [
+      Container(
+        width: 60.w,
+        height: 60.w,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(999)),
+            color: DefaultColors.darksea),
+        child: Lottie.asset(icon,
+            fit: BoxFit.contain, repeat: true, animate: play),
+      ),
+      Text(label)
+    ]);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.transparent, // Để nền trong suốt
-        appBar: AppBar(
-          title: Text(
-            'Danh sách phát hôm nay',
-            style: Theme.of(context).textTheme.titleMedium,
+
+        body: Stack(children: [
+          BlocBuilder<SongBloc, SongState>(
+            builder: (context, state) {
+              if (state is SongLoading) {
+                // Hiện loading
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (state is SongLoaded) {
+                //Hiện Nhạc
+                return Container(
+                  color: Colors.transparent, // Để nền trong suốt
+                  child: ListView.builder(
+                      itemCount: state.songs.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          leading: CircleAvatar(
+                            backgroundImage:
+                                AssetImage('assets/images/child_with_dog.png'),
+                          ),
+                          trailing: const Icon(
+                            Icons.arrow_forward_ios,
+                            size: 15,
+                          ),
+                          title: Text(
+                            state.songs[index].title,
+                            style: Theme.of(context).textTheme.labelMedium,
+                          ),
+                          subtitle: Text(
+                            state.songs[index].author,
+                            style: Theme.of(context).textTheme.labelSmall,
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MusicPlayerScreen(
+                                          song: state.songs[index],
+                                        )));
+                            // SongRemoteDataSourceImp(client: http.Client())
+                            //     .getAllSongs();
+                          },
+                        );
+                      }),
+                );
+              } else if (state is SongError) {
+                //Hiện lỗi
+                return Center(
+                  child: Text(
+                    state.message,
+                    style: Theme.of(context).textTheme.labelSmall,
+                  ),
+                );
+              } else {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.archive_outlined,
+                        size: 56,
+                        color: Color.fromRGBO(0, 0, 0, 0.5),
+                      ),
+                      Text(
+                        'Không có nhạc để hiển thị',
+                        style: Theme.of(context).textTheme.labelSmall,
+                      ),
+                    ],
+                  ),
+                );
+              }
+            },
           ),
-          backgroundColor: Colors.transparent, // AppBar trong suốt
-          elevation: 1,
-          centerTitle: false,
-        ),
-        body: BlocBuilder<SongBloc, SongState>(
-          builder: (context, state) {
-            if (state is SongLoading) {
-              // Hiện loading
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (state is SongLoaded) {
-              //Hiện Nhạc
-              return Container(
-                color: Colors.transparent, // Để nền trong suốt
-                child: ListView.builder(
-                    itemCount: state.songs.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        leading: CircleAvatar(
-                          backgroundImage:
-                              AssetImage('assets/images/child_with_dog.png'),
-                        ),
-                        trailing: const Icon(
-                          Icons.arrow_forward_ios,
-                          size: 15,
-                        ),
-                        title: Text(
-                          state.songs[index].title,
-                          style: Theme.of(context).textTheme.labelMedium,
-                        ),
-                        subtitle: Text(
-                          state.songs[index].author,
-                          style: Theme.of(context).textTheme.labelSmall,
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MusicPlayerScreen(
-                                        song: state.songs[index],
-                                      )));
-                          // SongRemoteDataSourceImp(client: http.Client())
-                          //     .getAllSongs();
-                        },
-                      );
-                    }),
-              );
-            } else if (state is SongError) {
-              //Hiện lỗi
-              return Center(
-                child: Text(
-                  state.message,
-                  style: Theme.of(context).textTheme.labelSmall,
-                ),
-              );
-            } else {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.archive_outlined,
-                      size: 56,
-                      color: Color.fromRGBO(0, 0, 0, 0.5),
-                    ),
-                    Text(
-                      'Không có nhạc để hiển thị',
-                      style: Theme.of(context).textTheme.labelSmall,
-                    ),
-                  ],
-                ),
-              );
-            }
-          },
-        ));
+          Align(
+            alignment: Alignment.topCenter,
+            child: _buildAppbar(),
+          )
+        ]));
   }
 }

@@ -65,6 +65,9 @@ abstract class TaskRepository {
 
   /// Khôi phục dữ liệu
   Future<void> restoreTasks();
+
+  /// Lấy micro tasks hàng ngày
+  Future<List<Task>> getDailyMicroTasks();
 }
 
 /// Class thống kê nhiệm vụ

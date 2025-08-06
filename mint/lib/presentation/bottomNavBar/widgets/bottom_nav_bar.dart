@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mental_health/core/extension/datetime_extension.dart';
+import 'package:mental_health/core/theme.dart';
 import 'dart:ui';
 import 'package:mental_health/presentation/bottomNavBar/bloc/navigation_bloc.dart';
 import 'package:mental_health/presentation/bottomNavBar/bloc/navigation_event.dart';
@@ -69,9 +71,9 @@ class _BottomNavBarState extends State<BottomNavBar>
 
     if (now.isMorning) {
       return [
-        const Color.fromARGB(100, 65, 153, 117), // Deep blue
-        const Color.fromARGB(100, 90, 204, 156), // Royal blue
-        const Color.fromARGB(100, 135, 255, 205), // Sky blue
+        DefaultColors.serotoninNeon.withValues(alpha: 0.5),
+        DefaultColors.serotoninNeon.withValues(alpha: 0.5),
+        DefaultColors.serotoninNeon.withValues(alpha: 0.6),
       ];
     } else {
       return [
@@ -96,7 +98,6 @@ class _BottomNavBarState extends State<BottomNavBar>
   /// Lấy màu glow dựa trên thời gian
   Color _getTimeBasedGlowColor() {
     final now = DateTime.now();
-
     if (now.isMorning) {
       return const Color.fromARGB(255, 235, 245, 240)
           .withValues(alpha: 0.6); // Gold glow
@@ -109,8 +110,8 @@ class _BottomNavBarState extends State<BottomNavBar>
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 80,
-      margin: const EdgeInsets.all(16),
+      height: 80.h,
+      margin:  EdgeInsets.all(16.w),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25),
         boxShadow: [
@@ -173,13 +174,7 @@ class _BottomNavBarState extends State<BottomNavBar>
           return Transform.scale(
             scale: isSelected ? _scaleAnimation.value : 1.0,
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              // decoration: BoxDecoration(
-              //   borderRadius: BorderRadius.circular(20),
-              //   color: isSelected
-              //       ? _getTimeBasedAccentColor().withValues(alpha: 0.2)
-              //       : Colors.transparent,
-
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
               child: AnimatedBuilder(
                 animation: _glowAnimation,
                 builder: (context, child) {
@@ -187,8 +182,6 @@ class _BottomNavBarState extends State<BottomNavBar>
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(8),
-                        child: _buildIcon(item, isSelected),
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           boxShadow: isSelected
@@ -201,13 +194,14 @@ class _BottomNavBarState extends State<BottomNavBar>
                                 ]
                               : null,
                         ),
+                        child: _buildIcon(item, isSelected),
                       ),
                       if (isSelected && item.label != null) ...[
                         Text(
                           item.label!,
                           style: TextStyle(
                             color: _getTimeBasedAccentColor(),
-                            fontSize: 10,
+                            fontSize: 10.sp,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -225,6 +219,12 @@ class _BottomNavBarState extends State<BottomNavBar>
 
   /// Build icon widget với color và size phù hợp
   Widget _buildIcon(BottomNavigationBarItem item, bool isSelected) {
+    // return Container(
+    //   width: 15,
+    //   height: 15,
+    //   color:Colors.amber
+    // );
+
     final iconWidget = item.icon;
 
     if (iconWidget is Image) {
@@ -236,8 +236,8 @@ class _BottomNavBarState extends State<BottomNavBar>
           BlendMode.srcIn,
         ),
         child: SizedBox(
-          width: isSelected ? 28 : 24,
-          height: isSelected ? 28 : 24,
+          width: isSelected ? 28.w : 24.w,
+          height: isSelected ? 28.w : 24.w,
           child: iconWidget,
         ),
       );
@@ -249,14 +249,14 @@ class _BottomNavBarState extends State<BottomNavBar>
         color: isSelected
             ? _getTimeBasedAccentColor()
             : Colors.white.withValues(alpha: 0.7),
-        size: isSelected ? 28 : 24,
+        size: isSelected ? 28.w : 24.w,
       );
     }
 
     // Fallback: trả về widget gốc
     return SizedBox(
-      width: isSelected ? 28 : 24,
-      height: isSelected ? 28 : 24,
+      width: isSelected ? 28.w : 24.w,
+      height: isSelected ? 28.w : 24.w,
       child: iconWidget,
     );
   }

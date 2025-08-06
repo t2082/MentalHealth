@@ -26,45 +26,45 @@ class TaskStatsCard extends StatelessWidget {
                 color: Colors.white,
               ),
         ),
-        _buildStatsRow(context),
+        // _buildStatsRow(context),
       ],
     ).animate().fadeIn(duration: 600.ms).slideY(begin: 0.3, end: 0);
   }
 
-  Widget _buildStatsRow(BuildContext context) {
-    return Row(
-      spacing: 10,
-      children: [
-        Expanded(
-          child: _buildStatItem(
-            context,
-            stats.todayCompletedTasks.toString(),
-            'Hoàn thành',
-            Icons.check_circle_outline,
-            Colors.green,
-          ),
-        ),
-        Expanded(
-          child: _buildStatItem(
-            context,
-            stats.todayRemainingTasks.toString(),
-            'Còn lại',
-            Icons.schedule_outlined,
-            Colors.orange,
-          ),
-        ),
-        Expanded(
-          child: _buildStatItem(
-            context,
-            stats.overdueTasks.toString(),
-            'Quá hạn',
-            Icons.warning_outlined,
-            Colors.red,
-          ),
-        ),
-      ],
-    );
-  }
+  // Widget _buildStatsRow(BuildContext context) {
+  //   return Row(
+  //     spacing: 10,
+  //     children: [
+  //       Expanded(
+  //         child: _buildStatItem(
+  //           context,
+  //           stats.todayCompletedTasks.toString(),
+  //           'Hoàn thành',
+  //           Icons.check_circle_outline,
+  //           Colors.green,
+  //         ),
+  //       ),
+  //       Expanded(
+  //         child: _buildStatItem(
+  //           context,
+  //           stats.todayRemainingTasks.toString(),
+  //           'Còn lại',
+  //           Icons.schedule_outlined,
+  //           Colors.orange,
+  //         ),
+  //       ),
+  //       Expanded(
+  //         child: _buildStatItem(
+  //           context,
+  //           stats.overdueTasks.toString(),
+  //           'Quá hạn',
+  //           Icons.warning_outlined,
+  //           Colors.red,
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 
   Widget _buildStatItem(
     BuildContext context,

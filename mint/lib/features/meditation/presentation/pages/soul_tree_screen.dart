@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:mental_health/core/theme.dart';
-import 'package:mental_health/features/meditation/presentation/widgets/soul_garden/river.dart';
+import 'package:mental_health/features/meditation/presentation/widgets/soul_garden/grass.dart';
+import 'package:mental_health/features/meditation/presentation/widgets/soul_garden/lakesurface.dart';
+import 'package:mental_health/features/meditation/presentation/widgets/soul_garden/land.dart';
 import 'package:mental_health/features/meditation/presentation/widgets/soul_garden/tree.dart';
 
 class SoulTreeScreen extends StatefulWidget {
@@ -72,24 +75,44 @@ class _SoulTreeScreenState extends State<SoulTreeScreen>
         automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.symmetric(
+          vertical: 16,
+        ),
         child: Column(
           children: [
             Container(
               width: double.infinity,
-              height: 350,
-              child: const TreeWidget(
-                growth: 1, // Cây đã phát triển 80%
-                root: 0.5,
-                body: 0.6,
-                branch: 0.7,
-                leaf: 0.7,
-                flower: 0.8,
-                fruit: 0.9,
-                size: 1,
-                seed: 1, // Seed để tạo hình dạng cây nhất quán
-              ),
-            )
+              height: 400,
+              child: Stack(children: [
+                Container(
+                  width: double.infinity,
+                  height: 50,
+                  child: Lottie.asset(
+                    'assets/lotties/flying_bird.json',
+                    fit: BoxFit.cover,
+                    repeat: true,
+                    animate: true,
+                  ),
+                ),
+                Container(
+                  width: double.infinity,
+                  height: 500,
+                  child: const LandWidget(
+                    size: 1,
+                  ),
+                ),
+                Container(
+                  width: double.infinity,
+                  height: 400,
+                  child: const TreeWidget(
+                    growth: 1, // Cây đã phát triển 80%
+                    size: 1,
+                    seed: 1, // Seed để tạo hình dạng cây nhất quán
+                  ),
+                ),
+              ]),
+            ),
+            const LakeSurface(),
           ],
         ),
       ),

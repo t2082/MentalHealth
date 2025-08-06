@@ -276,4 +276,14 @@ class TaskRepositoryImpl implements TaskRepository {
       throw Exception('Lỗi khi khôi phục dữ liệu: $e');
     }
   }
+
+  @override
+  Future<List<Task>> getDailyMicroTasks() async {
+    try {
+      final microTaskModels = await localDataSource.getDailyMicroTasks();
+      return microTaskModels.map((model) => model.toEntity()).toList();
+    } catch (e) {
+      throw Exception('Lỗi khi lấy micro tasks hàng ngày: $e');
+    }
+  }
 }

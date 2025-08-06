@@ -64,15 +64,15 @@ class _AddEditTaskScreenState extends State<AddEditTaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black.withOpacity(0.9),
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
           widget.isEditing ? 'Sửa nhiệm vụ' : 'Thêm nhiệm vụ mới',
-          style: const TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.black87),
         ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.white),
+        backgroundColor: Colors.white,
+        elevation: 1,
+        iconTheme: const IconThemeData(color: Colors.black87),
         actions: [
           TextButton(
             onPressed: _saveTask,
@@ -94,19 +94,17 @@ class _AddEditTaskScreenState extends State<AddEditTaskScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildTitleField(),
-              const SizedBox(height: 16),
+              const SizedBox(height: 20),
               _buildDescriptionField(),
-              const SizedBox(height: 16),
-              _buildCategorySelection(),
-              const SizedBox(height: 16),
+              const SizedBox(height: 20),
               _buildPrioritySelection(),
-              const SizedBox(height: 16),
+              const SizedBox(height: 20),
               _buildTimeEstimation(),
-              const SizedBox(height: 16),
+              const SizedBox(height: 20),
               _buildDueDateSelection(),
-              const SizedBox(height: 16),
-              _buildTagsSection(),
-              const SizedBox(height: 16),
+              const SizedBox(height: 20),
+              _buildCategorySelection(),
+              const SizedBox(height: 20),
               _buildNotesField(),
             ],
           ),
@@ -116,51 +114,83 @@ class _AddEditTaskScreenState extends State<AddEditTaskScreen> {
   }
 
   Widget _buildTitleField() {
-    return TextFormField(
-      controller: _titleController,
-      style: const TextStyle(color: Colors.white),
-      decoration: const InputDecoration(
-        labelText: 'Tên nhiệm vụ *',
-        labelStyle: TextStyle(color: Colors.white70),
-        border: OutlineInputBorder(),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.white30),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Tên nhiệm vụ',
+          style: TextStyle(
+            color: Colors.black87,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
         ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue),
+        const SizedBox(height: 8),
+        TextFormField(
+          controller: _titleController,
+          style: const TextStyle(color: Colors.black87),
+          decoration: const InputDecoration(
+            hintText: 'Nhập tên nhiệm vụ',
+            hintStyle: TextStyle(color: Colors.grey),
+            border: OutlineInputBorder(),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.blue, width: 2),
+            ),
+            filled: true,
+            fillColor: Color(0xFFF5F5F5),
+          ),
+          validator: (value) {
+            if (value == null || value.trim().isEmpty) {
+              return 'Vui lòng nhập tên nhiệm vụ';
+            }
+            return null;
+          },
         ),
-      ),
-      validator: (value) {
-        if (value == null || value.trim().isEmpty) {
-          return 'Vui lòng nhập tên nhiệm vụ';
-        }
-        return null;
-      },
+      ],
     );
   }
 
   Widget _buildDescriptionField() {
-    return TextFormField(
-      controller: _descriptionController,
-      style: const TextStyle(color: Colors.white),
-      maxLines: 3,
-      decoration: const InputDecoration(
-        labelText: 'Mô tả *',
-        labelStyle: TextStyle(color: Colors.white70),
-        border: OutlineInputBorder(),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.white30),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Mô tả',
+          style: TextStyle(
+            color: Colors.black87,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
         ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue),
+        const SizedBox(height: 8),
+        TextFormField(
+          controller: _descriptionController,
+          style: const TextStyle(color: Colors.black87),
+          maxLines: 3,
+          decoration: const InputDecoration(
+            hintText: 'Nhập mô tả nhiệm vụ',
+            hintStyle: TextStyle(color: Colors.grey),
+            border: OutlineInputBorder(),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.blue, width: 2),
+            ),
+            filled: true,
+            fillColor: Color(0xFFF5F5F5),
+          ),
+          validator: (value) {
+            if (value == null || value.trim().isEmpty) {
+              return 'Vui lòng nhập mô tả nhiệm vụ';
+            }
+            return null;
+          },
         ),
-      ),
-      validator: (value) {
-        if (value == null || value.trim().isEmpty) {
-          return 'Vui lòng nhập mô tả nhiệm vụ';
-        }
-        return null;
-      },
+      ],
     );
   }
 
@@ -207,9 +237,9 @@ class _AddEditTaskScreenState extends State<AddEditTaskScreen> {
         const Text(
           'Độ ưu tiên',
           style: TextStyle(
-            color: Colors.white,
+            color: Colors.black87,
             fontSize: 16,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w600,
           ),
         ),
         const SizedBox(height: 8),
@@ -227,14 +257,14 @@ class _AddEditTaskScreenState extends State<AddEditTaskScreen> {
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     decoration: BoxDecoration(
-                      color: isSelected 
-                          ? colors[priority - 1].withOpacity(0.3)
-                          : Colors.white.withOpacity(0.1),
+                      color: isSelected
+                          ? colors[priority - 1].withValues(alpha: 0.1)
+                          : Colors.grey.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
-                        color: isSelected 
+                        color: isSelected
                             ? colors[priority - 1]
-                            : Colors.white30,
+                            : Colors.grey,
                         width: isSelected ? 2 : 1,
                       ),
                     ),
@@ -242,9 +272,9 @@ class _AddEditTaskScreenState extends State<AddEditTaskScreen> {
                       labels[priority - 1],
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: isSelected 
+                        color: isSelected
                             ? colors[priority - 1]
-                            : Colors.white70,
+                            : Colors.black87,
                         fontWeight: isSelected 
                             ? FontWeight.bold 
                             : FontWeight.normal,
@@ -265,11 +295,11 @@ class _AddEditTaskScreenState extends State<AddEditTaskScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Thời gian ước tính (phút)',
+          'Thời gian ước tính',
           style: TextStyle(
-            color: Colors.white,
+            color: Colors.black87,
             fontSize: 16,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w600,
           ),
         ),
         const SizedBox(height: 8),
@@ -279,7 +309,7 @@ class _AddEditTaskScreenState extends State<AddEditTaskScreen> {
           max: 240,
           divisions: 47,
           activeColor: Colors.blue,
-          inactiveColor: Colors.white30,
+          inactiveColor: Colors.grey.shade300,
           label: '$_estimatedMinutes phút',
           onChanged: (value) {
             setState(() {
@@ -289,7 +319,7 @@ class _AddEditTaskScreenState extends State<AddEditTaskScreen> {
         ),
         Text(
           '$_estimatedMinutes phút',
-          style: const TextStyle(color: Colors.white70),
+          style: const TextStyle(color: Colors.black54),
         ),
       ],
     );
@@ -302,9 +332,9 @@ class _AddEditTaskScreenState extends State<AddEditTaskScreen> {
         const Text(
           'Ngày hết hạn',
           style: TextStyle(
-            color: Colors.white,
+            color: Colors.black87,
             fontSize: 16,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w600,
           ),
         ),
         const SizedBox(height: 8),

@@ -34,6 +34,11 @@ class LoadTasksByCategory extends TasksEvent {
   List<Object?> get props => [categoryId];
 }
 
+/// Event để load micro tasks hàng ngày
+class LoadDailyMicroTasks extends TasksEvent {
+  const LoadDailyMicroTasks();
+}
+
 /// Event để load thống kê nhiệm vụ
 class LoadTaskStats extends TasksEvent {
   const LoadTaskStats();

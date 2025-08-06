@@ -1,8 +1,9 @@
 import 'dart:convert';
+import 'dart:math';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/task_model.dart';
 import '../../domain/entities/task_category.dart';
-import '../demo_data.dart';
 
 /// Local data source cho Task sử dụng SharedPreferences
 abstract class TaskLocalDataSource {
@@ -15,6 +16,7 @@ abstract class TaskLocalDataSource {
   Future<List<TaskCategoryModel>> getAllCategories();
   Future<void> saveCategories(List<TaskCategoryModel> categories);
   Future<void> clearAllData();
+  Future<List<TaskModel>> getDailyMicroTasks();
 }
 
 class TaskLocalDataSourceImpl implements TaskLocalDataSource {
@@ -29,16 +31,7 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
   Future<List<TaskModel>> getAllTasks() async {
     try {
       final tasksJson = sharedPreferences.getString(_tasksKey);
-      if (tasksJson == null) {
-        // Nếu chưa có dữ liệu, tạo demo data
-        final demoTasks = TaskDemoData.getDemoTasks()
-            .map((task) => TaskModel.fromEntity(task))
-            .toList();
-        await saveTasks(demoTasks);
-        return demoTasks;
-      }
-
-      final List<dynamic> tasksList = json.decode(tasksJson);
+      final List<dynamic> tasksList = json.decode(tasksJson!);
       return tasksList.map((taskJson) => TaskModel.fromJson(taskJson)).toList();
     } catch (e) {
       throw Exception('Lỗi khi đọc dữ liệu nhiệm vụ: $e');
@@ -196,6 +189,103 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
       await saveTasks(tasks);
     } catch (e) {
       throw Exception('Lỗi khi toggle trạng thái nhiệm vụ: $e');
+    }
+  }
+
+  @override
+  Future<List<TaskModel>> getDailyMicroTasks() async {
+    try {
+      print('DEBUG: Starting to load micro tasks...');
+
+      // Tạm thời hardcode để test
+      final List<dynamic> microTasksJson = [
+        {
+          "id": "micro_task_0000001",
+          "title": "Gọi điện cho người nhà",
+          "description": "Đã bao lâu rồi bạn không gọi điện cho gia đình.",
+          "dopamine": 0,
+          "endorphin": 0,
+          "oxytocin": 10,
+          "serotonin": 0
+        },
+        {
+          "id": "micro_task_0000002",
+          "title": "Uống một cốc nước",
+          "description": "Bổ sung nước cho cơ thể, giữ gìn sức khỏe.",
+          "dopamine": 0,
+          "endorphin": 0,
+          "oxytocin": 0,
+          "serotonin": 5
+        },
+        {
+          "id": "micro_task_0000003",
+          "title": "Dọn dẹp bàn làm việc",
+          "description": "Sắp xếp lại không gian làm việc gọn gàng, ngăn nắp.",
+          "dopamine": 8,
+          "endorphin": 0,
+          "oxytocin": 0,
+          "serotonin": 0
+        },
+        {
+          "id": "micro_task_0000004",
+          "title": "Nghe một bài hát yêu thích",
+          "description": "Thư giãn và tận hưởng âm nhạc trong 3-5 phút.",
+          "dopamine": 6,
+          "endorphin": 0,
+          "oxytocin": 0,
+          "serotonin": 0
+        },
+        {
+          "id": "micro_task_0000005",
+          "title": "Thở sâu 10 lần",
+          "description": "Thực hiện bài tập thở để thư giãn và tập trung.",
+          "dopamine": 0,
+          "endorphin": 5,
+          "oxytocin": 0,
+          "serotonin": 8
+        }
+      ];
+
+      print('DEBUG: Using hardcoded tasks, count: ${microTasksJson.length}');
+
+      // Tạo seed dựa trên ngày hiện tại để đảm bảo cùng 3 tasks mỗi ngày
+      final today = DateTime.now();
+      final seed = today.year * 10000 + today.month * 100 + today.day;
+      final random = Random(seed);
+
+      // Chọn 3 micro tasks ngẫu nhiên
+      final shuffledTasks = List<dynamic>.from(microTasksJson);
+      shuffledTasks.shuffle(random);
+      final selectedTasks = shuffledTasks.take(3).toList();
+
+      // Chuyển đổi thành TaskModel
+      final List<TaskModel> microTasks = [];
+      final defaultCategory = TaskCategory.defaultCategories.firstWhere(
+        (cat) => cat.id == 'personal',
+        orElse: () => TaskCategory.defaultCategories.first,
+      );
+
+      for (int i = 0; i < selectedTasks.length; i++) {
+        final microTask = selectedTasks[i];
+        final taskModel = TaskModel(
+          id: 'micro_${microTask['id']}_${today.millisecondsSinceEpoch}_$i',
+          title: microTask['title'] ?? 'Micro Task',
+          description: microTask['description'] ?? '',
+          category: TaskCategoryModel.fromEntity(defaultCategory),
+          isCompleted: false,
+          createdAt: DateTime.now(),
+          priority: 1, // Micro tasks có độ ưu tiên thấp
+          estimatedMinutes: 5, // Micro tasks thường mất 5 phút
+          tags: const ['micro-task', 'daily'],
+        );
+        microTasks.add(taskModel);
+      }
+
+      print('DEBUG: Created ${microTasks.length} micro tasks');
+      return microTasks;
+    } catch (e) {
+      print('DEBUG: Error loading micro tasks: $e');
+      throw Exception('Lỗi khi load micro tasks: $e');
     }
   }
 }

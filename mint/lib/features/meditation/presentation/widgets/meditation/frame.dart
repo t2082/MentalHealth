@@ -57,7 +57,7 @@ class Frame extends StatelessWidget {
               bottomRight: Radius.circular(8.r),
             ),
             color: Color.alphaBlend(
-              DefaultColors.serotoninNeon.withValues(alpha: 0.3),
+              DefaultColors.serotonin,
               Colors.white,
             ),
             border: Border(
@@ -77,9 +77,8 @@ class Frame extends StatelessWidget {
           ),
           child: Text(
             title,
-            style: TextPresets.bodyMedium.copyWith(
-              fontWeight: FontWeight.w800,
-            ),
+            style: TextPresets.bodyMedium
+                .copyWith(fontWeight: FontWeight.w800, color: Colors.white),
           )),
       Positioned(
         top: 0,

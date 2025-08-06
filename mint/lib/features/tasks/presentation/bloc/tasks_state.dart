@@ -24,6 +24,7 @@ class TasksLoading extends TasksState {
 /// State đã load thành công
 class TasksLoaded extends TasksState {
   final List<Task> tasks;
+  final List<Task> microTasks;
   final TaskStats? stats;
   final TaskFilter currentFilter;
   final TaskSortOrder currentSort;
@@ -31,6 +32,7 @@ class TasksLoaded extends TasksState {
 
   const TasksLoaded({
     required this.tasks,
+    this.microTasks = const [],
     this.stats,
     this.currentFilter = TaskFilter.all,
     this.currentSort = TaskSortOrder.createdDateDesc,
@@ -40,6 +42,7 @@ class TasksLoaded extends TasksState {
   @override
   List<Object?> get props => [
         tasks,
+        microTasks,
         stats,
         currentFilter,
         currentSort,
@@ -49,6 +52,7 @@ class TasksLoaded extends TasksState {
   /// Tạo bản sao với các thuộc tính được cập nhật
   TasksLoaded copyWith({
     List<Task>? tasks,
+    List<Task>? microTasks,
     TaskStats? stats,
     TaskFilter? currentFilter,
     TaskSortOrder? currentSort,
@@ -56,6 +60,7 @@ class TasksLoaded extends TasksState {
   }) {
     return TasksLoaded(
       tasks: tasks ?? this.tasks,
+      microTasks: microTasks ?? this.microTasks,
       stats: stats ?? this.stats,
       currentFilter: currentFilter ?? this.currentFilter,
       currentSort: currentSort ?? this.currentSort,

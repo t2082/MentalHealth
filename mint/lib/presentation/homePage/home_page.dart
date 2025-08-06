@@ -38,46 +38,51 @@ class HomeScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor:
             Colors.transparent, // Để nền trong suốt để thấy Lottie background
-        body: BlocBuilder<NavigationBloc, NavigationState>(
-          builder: (context, state) {
-            if (state is NavigationChange) {
-              // state có phải kiểu NavigationChange không ?
-              return pages[state.index];
-            }
-            return pages[0];
-          },
-        ),
-        bottomNavigationBar: BlocBuilder<NavigationBloc, NavigationState>(
+        body: Stack(children: [
+          BlocBuilder<NavigationBloc, NavigationState>(
             builder: (context, state) {
-          int currentIndex = 0;
-          if (state is NavigationChange) {
-            currentIndex = state.index;
-          }
-          final List<BottomNavigationBarItem> bottomNavItems = [
-            createBottomNavItem(
-              iconData: Icons.home_rounded,
-              label: 'Trang chủ',
-            ),
-            createBottomNavItem(
-              iconData: Icons.task_alt_rounded,
-              label: 'Nhiệm vụ',
-            ),
-            createBottomNavItem(
-              iconData: Icons.favorite_rounded,
-              label: 'Âm nhạc',
-            ),
-            createBottomNavItem(
-              iconData: Icons.people_rounded,
-              label: 'Kết nối',
-            ),
-            createBottomNavItem(
-              iconData: Icons.settings_rounded,
-              label: 'Cài đặt',
-            ),
-          ];
-          return BottomNavBar(
-              items: bottomNavItems, currentIndex: currentIndex);
-        }),
+              if (state is NavigationChange) {
+                // state có phải kiểu NavigationChange không ?
+                return pages[state.index];
+              }
+              return pages[0];
+            },
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: BlocBuilder<NavigationBloc, NavigationState>(
+                builder: (context, state) {
+              int currentIndex = 0;
+              if (state is NavigationChange) {
+                currentIndex = state.index;
+              }
+              final List<BottomNavigationBarItem> bottomNavItems = [
+                createBottomNavItem(
+                  iconData: Icons.home_rounded,
+                  label: 'Trang chủ',
+                ),
+                createBottomNavItem(
+                  iconData: Icons.task_alt_rounded,
+                  label: 'Nhiệm vụ',
+                ),
+                createBottomNavItem(
+                  iconData: Icons.favorite_rounded,
+                  label: 'Âm nhạc',
+                ),
+                createBottomNavItem(
+                  iconData: Icons.people_rounded,
+                  label: 'Kết nối',
+                ),
+                createBottomNavItem(
+                  iconData: Icons.settings_rounded,
+                  label: 'Cài đặt',
+                ),
+              ];
+              return BottomNavBar(
+                  items: bottomNavItems, currentIndex: currentIndex);
+            }),
+          ),
+        ]),
       ),
     );
   }

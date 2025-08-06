@@ -194,8 +194,8 @@ class TreeBranch {
     );
   }
 
-  double get length => math.sqrt(
-      math.pow(endX - startX, 2) + math.pow(endY - startY, 2));
+  double get length =>
+      math.sqrt(math.pow(endX - startX, 2) + math.pow(endY - startY, 2));
 }
 
 /// Cấu trúc dữ liệu cho một lá cây

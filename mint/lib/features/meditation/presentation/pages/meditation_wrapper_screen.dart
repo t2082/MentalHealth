@@ -91,7 +91,7 @@ class _MeditationWrapperScreenState extends State<MeditationWrapperScreen>
             onPageChanged: _onPageChanged,
             children: const [
               MeditationScreen(),
-              SoulTreeScreen(),
+              // SoulTreeScreen(),
             ],
           ),
 

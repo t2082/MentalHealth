@@ -41,6 +41,7 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
     on<DeleteCompletedTasks>(_onDeleteCompletedTasks);
     on<ChangeTaskFilter>(_onChangeTaskFilter);
     on<ChangeTaskSort>(_onChangeTaskSort);
+    on<LoadDailyMicroTasks>(_onLoadDailyMicroTasks);
   }
 
   /// Load nhiệm vụ hôm nay
@@ -281,6 +282,28 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
     if (state is TasksLoaded) {
       final currentState = state as TasksLoaded;
       emit(currentState.copyWith(currentSort: event.sortOrder));
+    }
+  }
+
+  /// Load micro tasks hàng ngày
+  Future<void> _onLoadDailyMicroTasks(
+    LoadDailyMicroTasks event,
+    Emitter<TasksState> emit,
+  ) async {
+    try {
+      final microTasks = await taskRepository.getDailyMicroTasks();
+
+      if (state is TasksLoaded) {
+        final currentState = state as TasksLoaded;
+        // Cập nhật micro tasks riêng biệt
+        emit(currentState.copyWith(microTasks: microTasks));
+      } else {
+        // Nếu chưa có state loaded, tạo state mới với micro tasks
+        final stats = await getTaskStats();
+        emit(TasksLoaded(tasks: const [], microTasks: microTasks, stats: stats));
+      }
+    } catch (e) {
+      emit(TasksError('Không thể tải micro tasks: ${e.toString()}'));
     }
   }
 }
